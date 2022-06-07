@@ -1,21 +1,26 @@
-# Check out https://hub.docker.com/_/node to select a new base image
-FROM node:16-slim
+FROM node:16-alpine as development
+
 WORKDIR /usr/src/app
 
-COPY package*.json ./
-
-# RUN apt update && apt upgrade && apt install -y fontconfig build-essential chrpath git-core libssl-dev libfontconfig1-dev imagemagick
+COPY package*.json .
 
 RUN npm install
 
-RUN npm install -g ts-node nodemon
+COPY . .
 
-# RUN npm install -g phantomjs-prebuilt
-# RUN npm install pm2 -g
+RUN npm run build
 
-COPY . /usr/src/app
+FROM node:16-alpine as production
 
-EXPOSE 8080
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-#CMD [ "npm", "start"]
-CMD [ "node", "src/index.ts"]
+WORKDIR /usr/src/app
+
+COPY package*.json .
+
+RUN npm ci --only=production
+
+COPY --from=development /usr/src/app/dist ./dist
+
+CMD ["node", "dist/index.js"]

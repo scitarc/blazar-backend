@@ -1,52 +1,26 @@
 {
   "name": "blazar-backend",
-  "description": "Backend project of Blazar app",
-  "version": "0.1.0",
-  "keywords": [
-    "blazar",
-    "biotech",
-    "bio"
-  ],
-  "license": "MIT",
-  "main": "src/index.ts",
-  "types": "dist/index.d.ts",
-  "author": "SciTARC Corp.",
-  "copyright.owner": "SciTARC Corp.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/scitarc/blazar-backend",
-    "directory": "blazar-backend"
-  },
-  "engines": {
-    "node": "16 || 17 || 18"
-  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
-    "lint": "npm run prettier:check && npm run eslint",
-    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
-    "eslint": "lb-eslint --report-unused-disable-directives .",
-    "eslint:fix": "npm run eslint -- --fix",
-    "pretest": "npm run rebuild",
-    "test": "lb-mocha --allow-console-logs \"dist/__tests__/**/*.js\"",
-    "posttest": "npm run lint",
-    "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
-    "start": "node ./src/index.ts",
-    "start.dev": "nodemon",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "dev": "ts-node-dev --poll src/index.ts",
+    "build": "rimraf ./dist && tsc",
+    "start": "npm run build && node dist/index.js"
   },
-  "publishConfig": {
-    "access": "public"
-  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.1",
-    "express": "^4.18.1",
+    "express": "^4.17.3",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.35",
-    "concurrently": "^7.2.1",
-    "nodemon": "^2.0.16",
-    "typescript": "^4.6.4"
+    "rimraf": "^3.0.2",
+    "ts-node-dev": "^2.0.0-0",
+    "typescript": "^4.6.3"
   }
 }

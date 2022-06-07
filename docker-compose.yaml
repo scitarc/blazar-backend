@@ -1,12 +1,13 @@
-version: "3.9"  # optional since v1.27.0
+version: "3.4"  # optional since v1.27.0
 services:
   blazar:
     container_name: blazar-backend
-    build: .
-    ports:
-      - "8080:8080"
+    build:
+      context: .
+      target: development
     volumes:
-    - .:/usr/src/app
-    - /usr/src/app/node_modules
-    command: nodemon --watch views -e ts,js,html src/index.ts
-#    links:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "4000:4000"
+    command: npm run dev
